@@ -1,19 +1,13 @@
 const mongoose = require("mongoose");
-const config = require("./keys");
-const db = config.mongoURI;
+const { mongoURI } = require("./keys");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(db, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    });
-    console.log("connected to database");
+    await mongoose.connect(mongoURI);
+    console.log("Connected to the database successfully");
   } catch (err) {
-    console.log("connection failed");
-    process.exit(1);
+    console.error("Database connection failed:", err.message);
+    process.exit(1); // Exit with a failure code
   }
 };
 
