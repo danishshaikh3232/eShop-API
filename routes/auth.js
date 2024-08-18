@@ -1,15 +1,28 @@
 const express = require('express');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 const config = require('../config /keys')
 const router = express.Router();
 
 // Register a new user
 router.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, email, password, password2 } = req.body;
+
+  // Validate input
+  if (!name || !email || !password || !password2) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  // Check if passwords match
+  if (password !== password2) {
+    return res.status(400).json({ error: 'Passwords do not match' });
+  }
 
   try {
-    const user = new User({ username, email, password });
+    // Create and save the new user
+    const user = new User({ username: name, email, password });
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
@@ -51,4 +64,7 @@ router.post('/signout', (req, res) => {
 });
 
 
+
+
 module.exports = router;
+ 
