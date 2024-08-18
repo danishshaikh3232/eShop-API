@@ -3,7 +3,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const config = require('../config /keys')
+const config = require('../config/keys')
 const router = express.Router();
 
 // Register a new user
